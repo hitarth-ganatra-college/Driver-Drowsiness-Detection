@@ -11,11 +11,8 @@ from model import load_saved_model, train, evaluate
 
 setup_dirs([])
 
-args = get_input_args()
-logging.basicConfig(encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s', handlers=[
-    logging.FileHandler("./Logs/debug.log"),
-    logging.StreamHandler()
-])
+datasets = ['rakibuleceruet/drowsiness-prediction-dataset', 'adinishad/prediction-images']
+categories = ["Fatigue Subjects", "Active Subjects"]
 
 def train_model(training_dir, process_data=False, epochs=5):
     if process_data:
@@ -32,14 +29,20 @@ def train_model(training_dir, process_data=False, epochs=5):
 
     evaluate(model, test_generator)
 
-datasets = ['rakibuleceruet/drowsiness-prediction-dataset', 'adinishad/prediction-images']
-categories = ["Fatigue Subjects", "Active Subjects"]
+if __name__ == '__main__':
+    args = get_input_args()
+    logging.basicConfig(encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s', handlers=[
+        logging.FileHandler("./Logs/debug.log"),
+        logging.StreamHandler()
+    ])
 
-if args.setup:
-    setup_kaggle()
+    if args.setup:
+        setup_kaggle()
 
-if args.download_datasets:
-    download_datasets(datasets)
+    if args.download_datasets:
+        download_datasets(datasets)
 
-if args.train_model:
-    train_model(args.train_model, args.preprocess_data, 2)
+    if args.train_model:
+        train_model(args.train_dir, args.preprocess_data, 2)
+
+

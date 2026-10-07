@@ -55,10 +55,18 @@ def train(model, train_generator, test_generator, load_last=True, epochs=5):
 
 def evaluate(model, test_generator):
     result = model.evaluate(test_generator)
-    metrics = dict(zip(model.metrics_names, result))
+    metric_names = [m.name if hasattr(m, 'name') else str(m) for m in model.metrics] if hasattr(model, 'metrics') and model.metrics else getattr(model, 'metrics_names', ['loss', 'accuracy'])
+    if isinstance(result, (list, tuple)):
+        metrics = dict(zip(metric_names, result))
+        loss = metrics.get('loss', result[0])
+        acc = metrics.get('accuracy', result[1] if len(result) > 1 else 'N/A')
+    else:
+        loss = result
+        acc = 'N/A'
     print(f"Model Evaluation Score:")
-    print(f"Loss: {metrics['loss']}")
-    print(f"Accuracy: {metrics['accuracy']}")
+    print(f"Loss: {loss}")
+    print(f"Accuracy: {acc}")
+
 
 def predict(model, image):
     try:

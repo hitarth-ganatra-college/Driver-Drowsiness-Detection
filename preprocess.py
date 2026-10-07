@@ -6,7 +6,7 @@ import logging
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
 from setup_data import setup_dirs
-from keras.preprocessing.image import ImageDataGenerator
+from keras.src.legacy.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 
 

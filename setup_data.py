@@ -31,6 +31,8 @@ def setup_dirs(categories):
     if not os.path.exists(os.path.join('.', 'Logs')):
         os.makedirs(os.path.join('.', 'Logs'))
 
+import zipfile
+
 def download_datasets(datasets):
     logging.info('Downloading Datasets')
     for dataset in datasets:
@@ -39,5 +41,11 @@ def download_datasets(datasets):
     logging.info('Unzipping Downloaded Datasets')
     for dataset in datasets:
         dataset_name = dataset.split('/')[-1]
-        subprocess.call(['unzip', '-q', os.path.join('.', 'Data', dataset_name+'.zip'), '-d', os.path.join('.', 'Data', dataset_name)])
+        zip_path = os.path.join('.', 'Data', dataset_name + '.zip')
+        extract_dir = os.path.join('.', 'Data', dataset_name)
+        if os.path.exists(zip_path):
+            os.makedirs(extract_dir, exist_ok=True)
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(extract_dir)
+
 
