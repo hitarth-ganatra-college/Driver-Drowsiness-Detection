@@ -1,0 +1,9 @@
+av
+mediapipe
+opencv-python
+numpy
+scikit-learn
+torch
+keras
+streamlit
+streamlit-webrtc
